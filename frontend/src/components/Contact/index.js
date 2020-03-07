@@ -54,7 +54,7 @@ export default class ContactSection extends React.Component {
 
   render() {
     return (
-      <div>
+      <div ref={this.props.innerRef}>
         <h1>Contact Us</h1>
         <SectionHeaderBreak/>
         {this.renderFormElement()}

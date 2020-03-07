@@ -30,7 +30,7 @@ export default class SiteSection extends React.Component {
 
     return (
       <SectionContainer>
-        <h1>{this.props.header}</h1>
+        <h1 ref={this.props.innerRef}>{this.props.header}</h1>
         <SectionHeaderBreak/>
         <SectionCopy>
           <Markdown>{this.props.copy}</Markdown>

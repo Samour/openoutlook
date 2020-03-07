@@ -17,6 +17,7 @@ const HeroContainer = styled.div`
     background-image: url('${props => props.backgroundSrc}');
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
     top: 0;
     left: 0;
     bottom: 0;
@@ -45,40 +46,13 @@ const HeroText = styled.h4`
 `;
 
 export default class Hero extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: '',
-      copy: '',
-      backgroundSrc: '',
-      imgOpacity: '',
-    };
-  }
-
-  async getSectionContent() {
-    const res = await this.props.httpService.get('/hero-section');
-
-    this.setState({
-      title: res.data.Title,
-      copy: res.data.Copy,
-      backgroundSrc: this.props.cmsResourceService.getUri(res.data.Image.url),
-      backgroundOpacity: res.data.ImageOpacity,
-    });
-  }
-
-  componentDidMount() {
-    this.getSectionContent();
-  }
-
   render() {
     return (
-      <HeroContainer backgroundSrc={this.state.backgroundSrc} imgOpacity={this.state.backgroundOpacity}>
-        <HeroTitle>{this.state.title}</HeroTitle>
+      <HeroContainer backgroundSrc={this.props.backgroundSrc} imgOpacity={this.props.backgroundOpacity}>
+        <HeroTitle>{this.props.title}</HeroTitle>
         <HeroText>
           <Markdown>
-            {this.state.copy}
+            {this.props.copy}
           </Markdown>
         </HeroText>
       </HeroContainer>

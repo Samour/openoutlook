@@ -24,6 +24,12 @@
     },
     "ImageOpacity": {
       "type": "decimal"
+    },
+    "Logo": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
     }
   }
 }
