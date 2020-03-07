@@ -1,0 +1,31 @@
+Description: Open Outlook marketing website (staging + prod)
+Resources:
+  Ec2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: OpenOutlookMarketing
+      GroupDescription: Security group for ingress to Open Outlook marketing EC2 instance
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          FromPort: 443
+          ToPort: 443
+        - IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          FromPort: 22
+          ToPort: 22
+      Tags:
+        - Key: Project
+          Value: OpenOutlook
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-088eddd8d2cb7d1a6
+      InstanceType: t3.nano
+      KeyName: OpenOutlook
+      SecurityGroupIds:
+        - !Ref Ec2SecurityGroup
+      Tags:
+        - Key: Project
+          Value: OpenOutlook
+    

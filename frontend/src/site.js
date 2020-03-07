@@ -32,8 +32,9 @@ export default class Site extends React.Component {
       galleryCloseReturnToHeight: 0,
     };
 
-    this.httpService = httpService('http://localhost:1337');
-    this.cmsResourceService = new ResourceService('http://localhost:1337');
+    this.httpService = httpService(process.env.REACT_APP_API_URL);
+    this.cmsResourceService = new ResourceService(process.env.REACT_APP_API_URL);
+    console.log(process.env.REACT_APP_API_URL);
   }
 
   async loadHeroSection() {
