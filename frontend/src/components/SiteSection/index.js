@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Fade } from 'react-reveal';
 import Markdown from 'components/shared/Markdown';
 import SectionContainer from 'components/shared/SectionContainer';
 import SectionHeaderBreak from 'components/shared/SectionHeaderBreak';
@@ -30,11 +31,13 @@ export default class SiteSection extends React.Component {
 
     return (
       <SectionContainer>
-        <h1 ref={this.props.innerRef}>{this.props.header}</h1>
-        <SectionHeaderBreak/>
-        <SectionCopy>
-          <Markdown>{this.props.copy}</Markdown>
-        </SectionCopy>
+        <Fade up>
+          <h1 ref={this.props.innerRef}>{this.props.header}</h1>
+          <SectionHeaderBreak/>
+          <SectionCopy>
+            <Markdown>{this.props.copy}</Markdown>
+          </SectionCopy>
+        </Fade>
         <SubSectionsContainer>
           {subSections}
         </SubSectionsContainer>

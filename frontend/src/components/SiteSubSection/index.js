@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Fade } from 'react-reveal';
 import Markdown from 'components/shared/Markdown';
 import breakpoints from 'config/breakpoints';
 
@@ -54,11 +55,13 @@ export default class SubSection extends React.Component {
     return (
       <SubSectionContainer>
         <SubSectionContentContainer>
-          <SubSectionHeader onClick={this.openGallery}>{this.props.header}</SubSectionHeader>
-          <ImgContainer onClick={this.openGallery}>
-            <img src={this.props.cmsResourceService.getUri(this.props.image.url)}/>
-          </ImgContainer>
-          <Markdown>{this.props.copy}</Markdown>
+          <Fade up>
+            <SubSectionHeader onClick={this.openGallery}>{this.props.header}</SubSectionHeader>
+            <ImgContainer onClick={this.openGallery}>
+              <img src={this.props.cmsResourceService.getUri(this.props.image.url)}/>
+            </ImgContainer>
+            <Markdown>{this.props.copy}</Markdown>
+          </Fade>
         </SubSectionContentContainer>
       </SubSectionContainer>
     );

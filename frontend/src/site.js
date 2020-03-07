@@ -102,13 +102,13 @@ export default class Site extends React.Component {
       galleryView: { images, copy },
       galleryCloseReturnToHeight: window.pageYOffset,
     }, () => {
-      window.scrollTo(window.pageXOffset, 600); // Bottom of hero section
+      window.scrollTo({top: 600 }); // Bottom of hero section
     });
   }
 
   closeGallery = () => {
     this.setState({ galleryView: null }, () => {
-      window.scrollTo(window.pageXOffset, this.state.galleryCloseReturnToHeight);
+      window.scrollTo({top: this.state.galleryCloseReturnToHeight, behavior: 'smooth' });
     });
   }
 
@@ -117,12 +117,16 @@ export default class Site extends React.Component {
     const contactMenuItem = { text: 'Contact Us', ref: React.createRef() };
     menuItems.push(contactMenuItem);
 
+    const contactEl = this.state.sections.length > 1 ? 
+      <Contact innerRef={contactMenuItem.ref} httpService={this.httpService}/>
+      : null; // So that the reveal effect works, don't display Contact section until other sections have been loaded
+
     return (
       <SiteWrapper>
         <Hero {...this.state.heroSection}/>
         <MenuSticky logoSrc={this.state.heroSection.logo} menuItems={menuItems}/>
         {this.renderMainContent(menuItems)}
-        <Contact innerRef={contactMenuItem.ref} httpService={this.httpService}/>
+        {contactEl}
       </SiteWrapper>
     );
   }

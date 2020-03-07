@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Fade } from 'react-reveal';
 import SectionHeaderBreak from 'components/shared/SectionHeaderBreak';
 import ContactForm from './ContactForm';
 
@@ -55,20 +56,22 @@ export default class ContactSection extends React.Component {
   render() {
     return (
       <div ref={this.props.innerRef}>
-        <h1>Contact Us</h1>
-        <SectionHeaderBreak/>
-        {this.renderFormElement()}
-        <div>
-          <ContactDetailsContainer>
-            <strong><i>{this.state.companyName}</i></strong>
-          </ContactDetailsContainer>
-          <ContactDetailsContainer>
-            <a href={`mailTo:${this.state.email}`}>{this.state.email}</a>
-          </ContactDetailsContainer>
-          <ContactDetailsContainer>
-            p: {this.state.phone}
-          </ContactDetailsContainer>
-        </div>
+        <Fade up>
+          <h1>Contact Us</h1>
+          <SectionHeaderBreak/>
+          {this.renderFormElement()}
+          <div>
+            <ContactDetailsContainer>
+              <strong><i>{this.state.companyName}</i></strong>
+            </ContactDetailsContainer>
+            <ContactDetailsContainer>
+              <a href={`mailTo:${this.state.email}`}>{this.state.email}</a>
+            </ContactDetailsContainer>
+            <ContactDetailsContainer>
+              p: {this.state.phone}
+            </ContactDetailsContainer>
+          </div>
+        </Fade>
       </div>
     );
   }
