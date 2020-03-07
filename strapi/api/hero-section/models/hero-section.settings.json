@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "connection": "default",
+  "collectionName": "hero_sections",
+  "info": {
+    "name": "Hero Section"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Copy": {
+      "type": "richtext"
+    },
+    "Image": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    },
+    "ImageOpacity": {
+      "type": "decimal"
+    }
+  }
+}

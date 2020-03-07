@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "connection": "default",
+  "collectionName": "site_sections",
+  "info": {
+    "name": "Site Section"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "Header": {
+      "type": "string"
+    },
+    "Copy": {
+      "type": "richtext"
+    },
+    "Order": {
+      "type": "integer",
+      "required": true,
+      "unique": false
+    },
+    "SubSections": {
+      "collection": "site-sub-sections"
+    }
+  }
+}

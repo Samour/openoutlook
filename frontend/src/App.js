@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Site from './site';
+import Site from './Site';
 
 function App() {
   return <Site/>;
