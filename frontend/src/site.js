@@ -4,10 +4,14 @@ import httpService from './services/httpService';
 import ResourceService from './services/resourceService';
 import Hero from './components/Hero';
 import SiteSection from './components/SiteSection';
+import Gallery from './components/Gallery';
+
+const outerColour = '#a8aaaf';
+const innerColour = '#dddddd';
 
 const SiteWrapper = styled.div`
   text-align: center;
-  background: #dddddd;
+  background: linear-gradient(to right, ${outerColour}, ${innerColour} 5%, ${innerColour} 95%, ${outerColour});
 `;
 
 export default class Site extends React.Component {
@@ -17,6 +21,8 @@ export default class Site extends React.Component {
 
     this.state = {
       sections: [],
+      galleryView: null,
+      galleryCloseReturnToHeight: 0,
     };
 
     this.httpService = httpService('http://localhost:1337');
@@ -26,25 +32,66 @@ export default class Site extends React.Component {
   async loadSections() {
     const res = await this.httpService.get('/site-sections');
 
-    this.setState({
-      sections: res.data,
-    });
+    const sections = res.data;
+    sections.sort((a, b) => a.Order - b.Order);
+
+    this.setState({ sections });
   }
 
   componentDidMount() {
     this.loadSections();
   }
 
-  render() {
+  renderMainContent() {
+    if (this.state.galleryView) {
+      return this.renderGallery();
+    } else {
+      return this.renderSections();
+    }
+  }
+
+  renderSections() {
     const sections = this.state.sections.map((section) => (
-      <SiteSection header={section.Header} copy={section.Copy} subsections={section.SubSections}
-        cmsResourceService={this.cmsResourceService}/>
+      <SiteSection
+        key={section.id}
+        header={section.Header}
+        copy={section.Copy}
+        subsections={section.SubSections}
+        cmsResourceService={this.cmsResourceService}
+        onOpenGallery={this.openGallery}/>
     ));
 
+    return <div>{sections}</div>;
+  }
+
+  renderGallery() {
+    return (
+      <Gallery
+        copy={this.state.galleryView.copy}
+        gallery={this.state.galleryView.images}
+        onCloseGallery={this.closeGallery}
+        cmsResourceService={this.cmsResourceService}/>
+    );
+  }
+
+  openGallery = (images, copy) => {
+    this.setState({
+      galleryView: { images, copy },
+      galleryCloseReturnToHeight: window.pageYOffset,
+    });
+  }
+
+  closeGallery = () => {
+    this.setState({ galleryView: null }, () => {
+      window.scrollTo(window.pageXOffset, this.state.galleryCloseReturnToHeight);
+    });
+  }
+
+  render() {
     return (
       <SiteWrapper>
         <Hero httpService={this.httpService} cmsResourceService={this.cmsResourceService}/>
-        {sections}
+        {this.renderMainContent()}
       </SiteWrapper>
     );
   }

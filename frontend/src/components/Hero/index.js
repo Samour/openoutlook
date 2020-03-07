@@ -3,9 +3,13 @@ import Markdown from 'components/shared/Markdown';
 import styled from 'styled-components';
 
 const HeroContainer = styled.div`
-  height: 600px;
+  min-height: 600px;
   position: relative;
   background: #333333;
+
+  color: white;
+  text-shadow: 0px 0px 1px black;
+  text-shadow: 0px 0px 8px black;
 
   &::after {
     content: "";
@@ -19,10 +23,6 @@ const HeroContainer = styled.div`
     right: 0;
     position: absolute;
   }
-
-  color: white;
-  text-shadow: 0px 0px 1px black;
-  text-shadow: 0px 0px 8px black;
 
   * {
     position: relative;
@@ -39,7 +39,7 @@ const HeroTitle = styled.h1`
 
 const HeroText = styled.h4`
   max-width: 800px;
-  padding-top: 100px;
+  padding: 100px 0px;
   margin: auto;
   line-height: 1.8;
 `;

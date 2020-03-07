@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import Markdown from 'components/shared/Markdown';
+import breakpoints from 'config/breakpoints';
 
 const SubSectionContainer = styled.div`
-  max-width: 25%;
-  padding: 75px;
+  width: 100%;
 
-  &:first-child {
-    padding-left: 30px;
+  @media (min-width: ${breakpoints.md}px) {
+    max-width: 50%;
   }
 
-  &:last-child {
-    padding-right: 30px;
+  @media (min-width: ${breakpoints.xl}px) {
+    max-width: 33%;
   }
 
   img {
@@ -19,19 +19,47 @@ const SubSectionContainer = styled.div`
   }
 `;
 
+const SubSectionContentContainer = styled.div`
+  padding: 30px 0px;
+
+  @media (min-width: ${breakpoints.md}px) {
+    padding: 30px;
+  }
+
+  @media (min-width: ${breakpoints.xl}px) {
+    padding: 30px 75px;
+  }
+`;
+
+const SubSectionHeader = styled.h3`
+  cursor: pointer;
+
+  @media (min-width: ${breakpoints.md}px) {
+    min-height: 50px;
+  }
+`;
+
 const ImgContainer = styled.div`
+  cursor: pointer;
   margin: 40px 0px;
 `;
 
 export default class SubSection extends React.Component {
+
+  openGallery = () => {
+    this.props.onOpenGallery(this.props.gallery, this.props.galleryCopy);
+  }
+
   render() {
     return (
       <SubSectionContainer>
-        <h3>{this.props.header}</h3>
-        <ImgContainer>
-          <img src={this.props.cmsResourceService.getUri(this.props.image.url)}/>
-        </ImgContainer>
-        <Markdown>{this.props.copy}</Markdown>
+        <SubSectionContentContainer>
+          <SubSectionHeader onClick={this.openGallery}>{this.props.header}</SubSectionHeader>
+          <ImgContainer onClick={this.openGallery}>
+            <img src={this.props.cmsResourceService.getUri(this.props.image.url)}/>
+          </ImgContainer>
+          <Markdown>{this.props.copy}</Markdown>
+        </SubSectionContentContainer>
       </SubSectionContainer>
     );
   }

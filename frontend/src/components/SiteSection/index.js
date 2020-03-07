@@ -1,11 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Markdown from 'components/shared/Markdown';
+import SectionContainer from 'components/shared/SectionContainer';
 import SubSection from 'components/SiteSubSection';
-
-const SectionContainer = styled.div`
-  padding: 100px;
-`;
 
 const SectionHeaderBreak = styled.div`
   border-top: 1px solid;
@@ -20,13 +17,21 @@ const SectionCopy = styled.div`
 
 const SubSectionsContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export default class SiteSection extends React.Component {
   render() {
     const subSections = this.props.subsections.map((subSection) => (
-      <SubSection header={subSection.Header} image={subSection.Image} copy={subSection.Copy}
-        cmsResourceService={this.props.cmsResourceService}/>
+      <SubSection 
+        key={subSection.id} 
+        header={subSection.Header} 
+        image={subSection.Image} 
+        copy={subSection.Copy}
+        galleryCopy={subSection.GalleryCopy}
+        gallery={subSection.Gallery} 
+        cmsResourceService={this.props.cmsResourceService} 
+        onOpenGallery={this.props.onOpenGallery}/>
     ));
 
     return (

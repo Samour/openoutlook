@@ -21,6 +21,15 @@
     },
     "Copy": {
       "type": "richtext"
+    },
+    "Gallery": {
+      "collection": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    },
+    "GalleryCopy": {
+      "type": "richtext"
     }
   }
 }
