@@ -5,6 +5,7 @@ import ResourceService from './services/resourceService';
 import Hero from './components/Hero';
 import SiteSection from './components/SiteSection';
 import Gallery from './components/Gallery';
+import Contact from './components/Contact';
 
 const outerColour = '#a8aaaf';
 const innerColour = '#dddddd';
@@ -92,6 +93,7 @@ export default class Site extends React.Component {
       <SiteWrapper>
         <Hero httpService={this.httpService} cmsResourceService={this.cmsResourceService}/>
         {this.renderMainContent()}
+        <Contact httpService={this.httpService}/>
       </SiteWrapper>
     );
   }

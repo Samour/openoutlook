@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "connection": "default",
+  "collectionName": "enquiries",
+  "info": {
+    "name": "Enquiries"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string"
+    },
+    "Phone": {
+      "type": "string"
+    },
+    "Enquiry": {
+      "type": "text"
+    }
+  }
+}

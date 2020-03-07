@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "connection": "default",
+  "collectionName": "contact_details",
+  "info": {
+    "name": "Contact Details"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "CompanyName": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string"
+    },
+    "Phone": {
+      "type": "string"
+    },
+    "EnquirySubmittedMessage": {
+      "type": "string"
+    }
+  }
+}
