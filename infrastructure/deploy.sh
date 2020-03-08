@@ -31,12 +31,18 @@ deploy-db() {
   ssh $REMOTE_ADDR "systemctl start strapi-$ENV"
 }
 
+fetch-db() {
+  rsync -z $REMOTE_ADDR:/var/www/$ENV/strapi/.tmp/data.db ../strapi/.tmp/data.db
+}
+
 if [ "$1" == "fe" ]; then
   deploy-fe
 elif [ "$1" == "be" ]; then
   deploy-be
 elif [ "$1" == "db" ]; then
   deploy-db
+elif [ "$1" == "fetch-db" ]; then
+  fetch-db
 else
   echo "System not specified. Specify fe or be"
 fi

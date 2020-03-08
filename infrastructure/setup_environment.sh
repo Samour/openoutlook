@@ -43,7 +43,10 @@ EOF
 # Deploy SystemD units
 
 rsync -rz systemd/ $REMOTE_ADDR:/etc/systemd
-ssh $REMOTE_ADDR systemctl enable strapi-staging
+ssh $REMOTE_ADDR <<<"""
+systemctl enable strapi-staging
+systemctl enable strapi-production
+"""
 
 # Deploy nginx config
 ./deploy_config.sh nginx

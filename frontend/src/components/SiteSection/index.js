@@ -17,6 +17,7 @@ const SubSectionsContainer = styled.div`
 
 export default class SiteSection extends React.Component {
   render() {
+    // TODO these do not come from the API ordered, so we'll need to do that
     const subSections = this.props.subsections.map((subSection) => (
       <SubSection 
         key={subSection.id} 

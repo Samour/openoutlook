@@ -58,7 +58,7 @@ export default class SubSection extends React.Component {
           <Fade up>
             <SubSectionHeader onClick={this.openGallery}>{this.props.header}</SubSectionHeader>
             <ImgContainer onClick={this.openGallery}>
-              <img src={this.props.cmsResourceService.getUri(this.props.image.url)}/>
+              <img src={this.props.cmsResourceService.getUri(this.props.image.url)}/>{/* TODO don't error out when this is missing */}
             </ImgContainer>
             <Markdown>{this.props.copy}</Markdown>
           </Fade>
