@@ -34,7 +34,6 @@ export default class Site extends React.Component {
 
     this.httpService = httpService(process.env.REACT_APP_API_URL);
     this.cmsResourceService = new ResourceService(process.env.REACT_APP_API_URL);
-    console.log(process.env.REACT_APP_API_URL);
   }
 
   async loadHeroSection() {
