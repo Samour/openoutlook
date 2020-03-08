@@ -12,12 +12,17 @@ Resources:
           ToPort: 443
         - IpProtocol: tcp
           CidrIp: 0.0.0.0/0
+          FromPort: 80
+          ToPort: 80
+        - IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
           FromPort: 22
           ToPort: 22
       Tags:
         - Key: Project
           Value: OpenOutlook
   Ec2Instance:
+    # TODO need a larger disk. 20GB should do?
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-088eddd8d2cb7d1a6
@@ -28,4 +33,39 @@ Resources:
       Tags:
         - Key: Project
           Value: OpenOutlook
-    
+  StagingFEName:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: samour.net.
+      Name: openoutlook.staging.samour.net.
+      ResourceRecords:
+        - !GetAtt Ec2Instance.PublicIp
+      TTL: 60
+      Type: A
+  StagingBEName:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: samour.net.
+      Name: strapi.openoutlook.staging.samour.net.
+      ResourceRecords:
+        - !GetAtt Ec2Instance.PublicIp
+      TTL: 60
+      Type: A
+  ProdFEName:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: samour.net.
+      Name: openoutlook.prod.samour.net.
+      ResourceRecords:
+        - !GetAtt Ec2Instance.PublicIp
+      TTL: 60
+      Type: A
+  ProdBEName:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: samour.net.
+      Name: strapi.openoutlook.prod.samour.net.
+      ResourceRecords:
+        - !GetAtt Ec2Instance.PublicIp
+      TTL: 60
+      Type: A
