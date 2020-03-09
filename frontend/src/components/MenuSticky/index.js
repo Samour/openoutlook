@@ -41,9 +41,7 @@ export default class MenuSticky extends React.Component {
 
 
   scrollToElement(item) {
-    // TODO scroll has stopped working since fade effects added
     return () => {
-      console.log(item.ref.current);
       if (item.ref.current) {
         window.scrollTo({ top: item.ref.current.offsetTop - headerHeight, behavior: 'smooth' });
       }

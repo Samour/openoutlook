@@ -32,13 +32,15 @@ export default class SiteSection extends React.Component {
 
     return (
       <SectionContainer>
-        <Fade up>
-          <h1 ref={this.props.innerRef}>{this.props.header}</h1>
-          <SectionHeaderBreak/>
-          <SectionCopy>
-            <Markdown>{this.props.copy}</Markdown>
-          </SectionCopy>
-        </Fade>
+        <div ref={this.props.innerRef}>
+          <Fade up>
+            <h1>{this.props.header}</h1>
+            <SectionHeaderBreak/>
+            <SectionCopy>
+              <Markdown>{this.props.copy}</Markdown>
+            </SectionCopy>
+          </Fade>
+        </div>
         <SubSectionsContainer>
           {subSections}
         </SubSectionsContainer>
