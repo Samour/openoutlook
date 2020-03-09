@@ -1,5 +1,5 @@
 export default {
-  pageBgOuter: '#a8aaaf',
-  pageBgInner: '#dddddd',
+  pageBgOuter: '#f0f8ff',
+  pageBgInner: '#cccccc',
   stickyMenuBg: '#82848a',
 };
