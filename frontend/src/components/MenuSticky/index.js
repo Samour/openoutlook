@@ -1,22 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import breakpoints from 'config/breakpoints';
 import colours from 'config/colours';
 
 const headerHeight = 60;
 
 const StickyContainer = styled.div`
-  display: none;
-
-  @media (min-width: ${breakpoints.lg}px) {
-    display: block;
-    position: sticky;
-    top: 0;
-    height: ${headerHeight}px;
-    background: ${colours.stickyMenuBg};
-    opacity: 0.7;
-    z-index: 100;
-  }
+  position: sticky;
+  top: 0;
+  height: ${headerHeight}px;
+  background: ${colours.stickyMenuBg};
+  opacity: 0.7;
 `;
 
 const LogoImg = styled.img`
@@ -43,7 +36,7 @@ export default class MenuSticky extends React.Component {
   scrollToElement(item) {
     return () => {
       if (item.ref.current) {
-        window.scrollTo({ top: item.ref.current.offsetTop - headerHeight, behavior: 'smooth' });
+        window.scrollTo(window.pageXOffset, item.ref.current.offsetTop - headerHeight);
       }
     };
   }

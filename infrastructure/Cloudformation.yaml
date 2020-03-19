@@ -22,7 +22,7 @@ Resources:
         - Key: Project
           Value: OpenOutlook
   Ec2Instance:
-    # TODO need a larger disk. 20GB should do?
+    # TODO #5 need a larger disk. 20GB should do?
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-088eddd8d2cb7d1a6
