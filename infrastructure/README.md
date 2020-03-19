@@ -34,6 +34,10 @@ The changeset can then be reviewed & executed via AWS web interface
 
 2. `deploy.sh be production|staging`
 
-For an initial deployment, also deploy DB `deploy.sh db production|staging`
+### Database
+
+DB can be deployed with `deploy.sh db production|staging`
 
 This will erase any existing DB though, so only deploy in this way if no prod data needs to be retained (esp. enquiries table)
+
+DB & uploaded files can be fetched by using `deploy.sh fetch-db production|staging`

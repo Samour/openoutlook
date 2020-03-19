@@ -27,12 +27,14 @@ deploy-db() {
   systemctl stop strapi-$ENV
   cp /var/www/$ENV/strapi/.tmp/data.db /var/www/$ENV/strapi/.tmp/data.db.\`date -Is\`
   """
-  rsync -z ../strapi/.tmp/data.db $REMOTE_ADDR:/var/www/$ENV/strapi/.tmp/
+  rsync -vz ../strapi/.tmp/data.db $REMOTE_ADDR:/var/www/$ENV/strapi/.tmp/
+  rsync -vz ../strapi/public/uploads/* ../strapi/public/uploads/
   ssh $REMOTE_ADDR "systemctl start strapi-$ENV"
 }
 
 fetch-db() {
-  rsync -z $REMOTE_ADDR:/var/www/$ENV/strapi/.tmp/data.db ../strapi/.tmp/data.db
+  rsync -vz $REMOTE_ADDR:/var/www/$ENV/strapi/.tmp/data.db ../strapi/.tmp/data.db
+  rsync -vz $REMOTE_ADDR:/var/www/$ENV/strapi/public/uploads/* ../strapi/public/uploads/
 }
 
 if [ "$1" == "fe" ]; then
