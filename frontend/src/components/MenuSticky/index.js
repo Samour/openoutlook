@@ -36,7 +36,7 @@ export default class MenuSticky extends React.Component {
   scrollToElement(item) {
     return () => {
       if (item.ref.current) {
-        window.scrollTo(window.pageXOffset, item.ref.current.offsetTop - headerHeight);
+        window.scrollTo({ top: item.ref.current.offsetTop - headerHeight, behavior: 'smooth' });
       }
     };
   }
