@@ -21,8 +21,11 @@
       "required": true,
       "unique": false
     },
-    "SubSections": {
-      "collection": "site-sub-sections"
+    "Gallery": {
+      "collection": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
     }
   }
 }

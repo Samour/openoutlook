@@ -5,7 +5,6 @@ import ResourceService from './services/resourceService';
 import Hero from './components/Hero';
 import MenuSticky from './components/MenuSticky';
 import SiteSection from './components/SiteSection';
-import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 import colours from 'config/colours';
 
@@ -64,52 +63,19 @@ export default class Site extends React.Component {
     this.loadSections();
   }
 
-  renderMainContent(menuItems) {
-    if (this.state.galleryView) {
-      return this.renderGallery();
-    } else {
-      return this.renderSections(menuItems);
-    }
-  }
-
   renderSections(menuItems) {
     const sections = this.state.sections.map((section, i) => (
       <SiteSection
         key={section.id}
         header={section.Header}
         copy={section.Copy}
-        subsections={section.SubSections}
+        gallery={section.Gallery}
         cmsResourceService={this.cmsResourceService}
         onOpenGallery={this.openGallery}
         innerRef={menuItems[i].ref}/>
     ));
 
     return <div>{sections}</div>;
-  }
-
-  renderGallery() {
-    return (
-      <Gallery
-        copy={this.state.galleryView.copy}
-        gallery={this.state.galleryView.images}
-        onCloseGallery={this.closeGallery}
-        cmsResourceService={this.cmsResourceService}/>
-    );
-  }
-
-  openGallery = (images, copy) => {
-    this.setState({
-      galleryView: { images, copy },
-      galleryCloseReturnToHeight: window.pageYOffset,
-    }, () => {
-      window.scrollTo({top: 600 }); // Bottom of hero section
-    });
-  }
-
-  closeGallery = () => {
-    this.setState({ galleryView: null }, () => {
-      window.scrollTo({top: this.state.galleryCloseReturnToHeight, behavior: 'smooth' });
-    });
   }
 
   render() {
@@ -125,7 +91,7 @@ export default class Site extends React.Component {
       <SiteWrapper>
         <Hero {...this.state.heroSection}/>
         <MenuSticky logoSrc={this.state.heroSection.logo} menuItems={menuItems}/>
-        {this.renderMainContent(menuItems)}
+        {this.renderSections(menuItems)}
         {contactEl}
       </SiteWrapper>
     );

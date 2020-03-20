@@ -1,0 +1,7 @@
+.section-gallery {
+  margin-bottom: 160px;
+}
+
+.section-gallery .image-gallery-content .image-gallery-slide .image-gallery-image {
+  max-height: calc(100vh - 160px);
+}
