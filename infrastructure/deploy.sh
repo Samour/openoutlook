@@ -5,12 +5,12 @@
 ENV="$2"
 
 deploy-fe() {
-  rsync -rz ../frontend/build/ $REMOTE_ADDR:/var/www/$ENV/fe
+  rsync -rvz ../frontend/build/ $REMOTE_ADDR:/var/www/$ENV/fe
 }
 
 deploy-be() {
   ssh $REMOTE_ADDR "systemctl stop strapi-$ENV"
-  rsync -rz ../strapi/ $REMOTE_ADDR:/var/www/$ENV/strapi \
+  rsync -rvz ../strapi/ $REMOTE_ADDR:/var/www/$ENV/strapi \
     --exclude=.* \
     --exclude=node_modules \
     --exclude=package-lock.json
@@ -43,6 +43,10 @@ elif [ "$1" == "be" ]; then
   deploy-be
 elif [ "$1" == "db" ]; then
   deploy-db
+elif [ "$1" == "all" ]; then
+  deploy-be
+  deploy-db
+  deploy-fe
 elif [ "$1" == "fetch-db" ]; then
   fetch-db
 else

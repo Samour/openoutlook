@@ -41,3 +41,9 @@ DB can be deployed with `deploy.sh db production|staging`
 This will erase any existing DB though, so only deploy in this way if no prod data needs to be retained (esp. enquiries table)
 
 DB & uploaded files can be fetched by using `deploy.sh fetch-db production|staging`
+
+### Deploy all
+
+All 3 steps can be executed with the command `deploy.sh all production|staging`
+
+Order of execution is `deploy-be`; `deploy-db`; `deploy-fe`
