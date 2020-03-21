@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Fade } from 'react-reveal';
+import Ref from 'shared/shapes';
 import SectionHeaderBreak from 'components/shared/SectionHeaderBreak';
 import ContactForm from './ContactForm';
 
@@ -15,6 +17,11 @@ const ContactDetailsContainer = styled.div`
 
 export default class ContactSection extends React.Component {
 
+  static propTypes = {
+    innerRef: Ref.isRequired,
+    httpService: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -25,6 +32,10 @@ export default class ContactSection extends React.Component {
       enquirySubmittedMessage: '',
       formSubmitted: false,
     };
+  }
+
+  componentDidMount() {
+    this.getContactDetails();
   }
 
   async getContactDetails() {
@@ -41,16 +52,11 @@ export default class ContactSection extends React.Component {
     this.setState({ formSubmitted: true });
   }
 
-  componentDidMount() {
-    this.getContactDetails();
-  }
-
   renderFormElement() {
     if (this.state.formSubmitted) {
       return <h3>{this.state.enquirySubmittedMessage}</h3>;
-    } else {
-      return <ContactForm onFormSubmitted={this.formSubmitted} httpService={this.props.httpService}/>;
     }
+    return <ContactForm onFormSubmitted={this.formSubmitted} httpService={this.props.httpService} />;
   }
 
   render() {
@@ -58,7 +64,7 @@ export default class ContactSection extends React.Component {
       <div ref={this.props.innerRef}>
         <Fade up>
           <h1>Contact Us</h1>
-          <SectionHeaderBreak/>
+          <SectionHeaderBreak />
           {this.renderFormElement()}
           <div>
             <ContactDetailsContainer>
@@ -68,11 +74,14 @@ export default class ContactSection extends React.Component {
               <a href={`mailTo:${this.state.email}`}>{this.state.email}</a>
             </ContactDetailsContainer>
             <ContactDetailsContainer>
-              p: {this.state.phone}
+              p:
+              {' '}
+              {this.state.phone}
             </ContactDetailsContainer>
           </div>
         </Fade>
       </div>
     );
   }
+
 }

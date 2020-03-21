@@ -1,4 +1,5 @@
 export default class ResourceService {
+
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
   }
@@ -6,4 +7,5 @@ export default class ResourceService {
   getUri(resourceName) {
     return this.baseUrl + resourceName;
   }
+
 }

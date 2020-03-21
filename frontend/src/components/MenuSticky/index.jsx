@@ -1,7 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Ref from 'shared/shapes';
 import breakpoints from 'config/breakpoints';
 import colours from 'config/colours';
+
+const MenuItemShape = {
+  text: PropTypes.string.isRequired,
+  ref: Ref,
+};
 
 const headerHeight = 60;
 
@@ -39,6 +46,10 @@ const MenuItem = styled.div`
 
 export default class MenuSticky extends React.Component {
 
+  static propTypes = {
+    menuItems: PropTypes.arrayOf(PropTypes.shape(MenuItemShape)).isRequired,
+    logoSrc: PropTypes.string.isRequired,
+  };
 
   scrollToElement(item) {
     return () => {
@@ -50,15 +61,16 @@ export default class MenuSticky extends React.Component {
 
   render() {
     const menuItems = this.props.menuItems
-      .map((item, i) => <MenuItem key={i} onClick={this.scrollToElement(item)}>{item.text}</MenuItem>);
+      .map((item) => <MenuItem key={item.text} onClick={this.scrollToElement(item)}>{item.text}</MenuItem>);
 
     return (
       <StickyContainer>
-        <LogoImg src={this.props.logoSrc}/>
+        <LogoImg src={this.props.logoSrc} />
         <MenuItemsContainer>
           {menuItems}
         </MenuItemsContainer>
       </StickyContainer>
     );
   }
+
 }

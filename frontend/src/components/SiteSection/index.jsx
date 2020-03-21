@@ -1,11 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Fade, Zoom } from 'react-reveal';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import Ref from 'shared/shapes';
 import Markdown from 'components/shared/Markdown';
 import SectionContainer from 'components/shared/SectionContainer';
 import SectionHeaderBreak from 'components/shared/SectionHeaderBreak';
+import ResourceService from 'services/resourceService';
 import './style.css';
 
 const SectionCopy = styled.div`
@@ -14,15 +17,22 @@ const SectionCopy = styled.div`
 
 export default class SiteSection extends React.Component {
 
+  static propTypes = {
+    header: PropTypes.string.isRequired,
+    copy: PropTypes.string.isRequired,
+    innerRef: Ref.isRequired,
+    gallery: PropTypes.arrayOf(PropTypes.shape({ url: PropTypes.string.isRequired })).isRequired,
+    cmsResourceService: PropTypes.instanceOf(ResourceService).isRequired,
+  };
+
   renderGallery() {
     if (this.props.gallery.length < 1) {
       return null;
     }
 
     const imageUrls = this.props.gallery
-      .map(i => this.props.cmsResourceService.getUri(i.url))
+      .map((i) => this.props.cmsResourceService.getUri(i.url))
       .map((url) => ({ original: url }));
-    console.log(imageUrls);
 
     return (
       <Zoom>
@@ -32,7 +42,8 @@ export default class SiteSection extends React.Component {
             showThumbnails={false}
             showPlayButton={false}
             showFullscreenButton={false}
-            autoPlay={true}/>
+            autoPlay
+          />
         </div>
       </Zoom>
     );
@@ -46,7 +57,7 @@ export default class SiteSection extends React.Component {
             <h1>{this.props.header}</h1>
           </Fade>
           <Fade up>
-            <SectionHeaderBreak/>
+            <SectionHeaderBreak />
           </Fade>
           <Fade up>
             <SectionCopy>
@@ -58,4 +69,5 @@ export default class SiteSection extends React.Component {
       </SectionContainer>
     );
   }
+
 }

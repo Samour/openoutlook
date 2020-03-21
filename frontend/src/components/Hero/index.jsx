@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Markdown from 'components/shared/Markdown';
 import styled from 'styled-components';
 
@@ -13,8 +14,8 @@ const HeroContainer = styled.div`
 
   &::after {
     content: "";
-    opacity: ${props => props.imgOpacity};
-    background-image: url('${props => props.backgroundSrc}');
+    opacity: ${(props) => props.imgOpacity};
+    background-image: url('${(props) => props.backgroundSrc}');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -45,7 +46,15 @@ const HeroText = styled.h4`
   line-height: 1.8;
 `;
 
-export default class Hero extends React.Component {
+export default class Hero extends React.PureComponent {
+
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    copy: PropTypes.string.isRequired,
+    backgroundSrc: PropTypes.string.isRequired,
+    backgroundOpacity: PropTypes.number.isRequired,
+  };
+
   render() {
     return (
       <HeroContainer backgroundSrc={this.props.backgroundSrc} imgOpacity={this.props.backgroundOpacity}>
@@ -58,4 +67,5 @@ export default class Hero extends React.Component {
       </HeroContainer>
     );
   }
+
 }

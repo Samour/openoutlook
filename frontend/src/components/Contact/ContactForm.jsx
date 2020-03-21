@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { TextField, Button } from '@material-ui/core';
 
@@ -14,6 +15,11 @@ const ButtonContainer = styled.div`
 
 export default class ContactForm extends React.Component {
 
+  static propTypes = {
+    httpService: PropTypes.func.isRequired,
+    onFormSubmitted: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props);
 
@@ -22,14 +28,6 @@ export default class ContactForm extends React.Component {
       email: '',
       phone: '',
       enquiry: '',
-    };
-  }
-
-  update(field) {
-    return (event) => {
-      const updateObj = {};
-      updateObj[field] = event.target.value;
-      this.setState({ ...updateObj });
     };
   }
 
@@ -44,21 +42,36 @@ export default class ContactForm extends React.Component {
     this.props.onFormSubmitted();
   }
 
+  update(field) {
+    return (event) => {
+      const updateObj = {};
+      updateObj[field] = event.target.value;
+      this.setState({ ...updateObj });
+    };
+  }
+
   render() {
     return (
       <Form onSubmit={this.submitForm}>
         <div>
-          <TextField label="Name" required margin="normal" fullWidth onChange={this.update('name')}/>
+          <TextField label="Name" required margin="normal" fullWidth onChange={this.update('name')} />
         </div>
         <div>
-          <TextField label="Email" required margin="normal" fullWidth onChange={this.update('email')}/>
+          <TextField label="Email" required margin="normal" fullWidth onChange={this.update('email')} />
         </div>
         <div>
-          <TextField label="Phone" margin="normal" fullWidth onChange={this.update('phone')}/>
+          <TextField label="Phone" margin="normal" fullWidth onChange={this.update('phone')} />
         </div>
         <div>
-          <TextField label="Your Enquiry" multiline rows="6" required margin="normal" fullWidth 
-            onChange={this.update('enquiry')}/>
+          <TextField
+            label="Your Enquiry"
+            multiline
+            rows="6"
+            required
+            margin="normal"
+            fullWidth
+            onChange={this.update('enquiry')}
+          />
         </div>
         <ButtonContainer>
           <Button variant="contained" onClick={this.submitForm}>Submit</Button>
@@ -66,4 +79,5 @@ export default class ContactForm extends React.Component {
       </Form>
     );
   }
+
 }

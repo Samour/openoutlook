@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import httpService from './services/httpService';
-import ResourceService from './services/resourceService';
-import Hero from './components/Hero';
-import MenuSticky from './components/MenuSticky';
-import SiteSection from './components/SiteSection';
-import Contact from './components/Contact';
+import httpService from 'services/httpService';
+import ResourceService from 'services/resourceService';
+import Hero from 'components/Hero';
+import MenuSticky from 'components/MenuSticky';
+import SiteSection from 'components/SiteSection';
+import Contact from 'components/Contact';
 import colours from 'config/colours';
 
 const SiteWrapper = styled.div`
@@ -25,14 +25,23 @@ export default class Site extends React.Component {
     super(props);
 
     this.state = {
-      heroSection: {},
+      heroSection: {
+        title: '',
+        copy: '',
+        backgroundSrc: '',
+        backgroundOpacity: 0,
+        logo: '',
+      },
       sections: [],
-      galleryView: null,
-      galleryCloseReturnToHeight: 0,
     };
 
     this.httpService = httpService(process.env.REACT_APP_API_URL);
     this.cmsResourceService = new ResourceService(process.env.REACT_APP_API_URL);
+  }
+
+  componentDidMount() {
+    this.loadHeroSection();
+    this.loadSections();
   }
 
   async loadHeroSection() {
@@ -45,7 +54,7 @@ export default class Site extends React.Component {
         backgroundSrc: this.cmsResourceService.getUri(res.data.Image.url),
         backgroundOpacity: res.data.ImageOpacity,
         logo: this.cmsResourceService.getUri(res.data.Logo.url),
-      }
+      },
     });
   }
 
@@ -58,11 +67,6 @@ export default class Site extends React.Component {
     this.setState({ sections });
   }
 
-  componentDidMount() {
-    this.loadHeroSection();
-    this.loadSections();
-  }
-
   renderSections(menuItems) {
     const sections = this.state.sections.map((section, i) => (
       <SiteSection
@@ -72,7 +76,8 @@ export default class Site extends React.Component {
         gallery={section.Gallery}
         cmsResourceService={this.cmsResourceService}
         onOpenGallery={this.openGallery}
-        innerRef={menuItems[i].ref}/>
+        innerRef={menuItems[i].ref}
+      />
     ));
 
     return <div>{sections}</div>;
@@ -83,17 +88,23 @@ export default class Site extends React.Component {
     const contactMenuItem = { text: 'Contact Us', ref: React.createRef() };
     menuItems.push(contactMenuItem);
 
-    const contactEl = this.state.sections.length > 1 ? 
-      <Contact innerRef={contactMenuItem.ref} httpService={this.httpService}/>
+    const contactEl = this.state.sections.length > 1
+      ? <Contact innerRef={contactMenuItem.ref} httpService={this.httpService} />
       : null; // So that the reveal effect works, don't display Contact section until other sections have been loaded
 
     return (
       <SiteWrapper>
-        <Hero {...this.state.heroSection}/>
-        <MenuSticky logoSrc={this.state.heroSection.logo} menuItems={menuItems}/>
+        <Hero
+          backgroundSrc={this.state.heroSection.backgroundSrc}
+          backgroundOpacity={this.state.heroSection.backgroundOpacity}
+          title={this.state.heroSection.title}
+          copy={this.state.heroSection.copy}
+        />
+        <MenuSticky logoSrc={this.state.heroSection.logo} menuItems={menuItems} />
         {this.renderSections(menuItems)}
         {contactEl}
       </SiteWrapper>
     );
   }
+
 }

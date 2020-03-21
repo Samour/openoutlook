@@ -1,0 +1,38 @@
+env:
+  browser: true
+  es6: true
+extends:
+  - 'plugin:react/recommended'
+  - airbnb
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parser: babel-eslint
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 2018
+  sourceType: module
+plugins:
+  - react
+rules:
+  react/destructuring-assignment:
+    - 0
+  max-len:
+    - 2
+    - 120
+  padded-blocks:
+    - 2
+    - classes: always
+      blocks: never
+      switches: never
+  react/static-property-placement:
+    - 2
+    - static public field
+  class-methods-use-this:
+    - 0
+settings:
+  import/resolver:
+    node:
+      paths:
+        - ./src
