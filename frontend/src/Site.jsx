@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import configProvider from 'services/configProvider';
 import httpService from 'services/httpService';
 import ResourceService from 'services/resourceService';
 import Hero from 'components/Hero';
@@ -35,11 +36,14 @@ export default class Site extends React.Component {
       sections: [],
     };
 
-    this.httpService = httpService(process.env.REACT_APP_API_URL);
-    this.cmsResourceService = new ResourceService(process.env.REACT_APP_API_URL);
+    this.httpService = null;
+    this.cmsResourceService = null;
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const config = await configProvider();
+    this.httpService = httpService(config.apiUrl);
+    this.cmsResourceService = new ResourceService(config.apiUrl);
     this.loadHeroSection();
     this.loadSections();
   }
