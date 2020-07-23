@@ -39,13 +39,13 @@ fetch-db() {
 
 promote() {
   ssh $REMOTE_ADDR <<<"""
-  systemctl stop strapi-$PRODUCTION
-
   cp -r /var/www/$STAGING/fe /var/www/$PRODUCTION/fe_new
   cp -r /var/www/$PRODUCTION/fe/public/* /var/www/$PRODUCTION/fe_new/public/
   cp /var/www/$STAGING/fe/public/index.html /var/www/$PRODUCTION/fe_new/public/
   rm -r /var/www/$PRODUCTION/fe
   mv /var/www/$PRODUCTION/fe_new /var/www/$PRODUCTION/fe
+
+  systemctl stop strapi-$PRODUCTION
 
   BAK_FNAME=/var/www/$PRODUCTION/strapi/.tmp/data.db.\`date -Is\`
   cp /var/www/$PRODUCTION/strapi/.tmp/data.db \$BAK_FNAME
