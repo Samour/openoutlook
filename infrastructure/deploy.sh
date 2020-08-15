@@ -40,8 +40,8 @@ fetch-db() {
 promote() {
   ssh $REMOTE_ADDR <<<"""
   cp -r /var/www/$STAGING/fe /var/www/$PRODUCTION/fe_new
-  cp -r /var/www/$PRODUCTION/fe/public/* /var/www/$PRODUCTION/fe_new/public/
-  cp /var/www/$STAGING/fe/public/index.html /var/www/$PRODUCTION/fe_new/public/
+  cp -r /var/www/$PRODUCTION/fe/* /var/www/$PRODUCTION/fe_new/
+  cp /var/www/$STAGING/fe/index.html /var/www/$PRODUCTION/fe_new/
   rm -r /var/www/$PRODUCTION/fe
   mv /var/www/$PRODUCTION/fe_new /var/www/$PRODUCTION/fe
 
