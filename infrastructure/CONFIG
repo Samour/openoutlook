@@ -1,1 +1,6 @@
 export REMOTE_ADDR=openoutlook
+
+export STAGING=staging
+export PRODUCTION=production
+
+export ENQUIRIES_TABLE=enquiries
