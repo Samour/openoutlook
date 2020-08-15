@@ -2,18 +2,20 @@ env:
   browser: true
   es6: true
 extends:
+  - 'plugin:@typescript-eslint/recommended'
   - 'plugin:react/recommended'
   - airbnb
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
-parser: babel-eslint
+parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
     jsx: true
   ecmaVersion: 2018
   sourceType: module
 plugins:
+  - '@typescript-eslint'
   - react
 rules:
   react/destructuring-assignment:
@@ -31,8 +33,33 @@ rules:
     - static public field
   class-methods-use-this:
     - 0
+  import/extensions:
+    - 2
+    - ignorePackages
+    - js: never
+      jsx: never
+      ts: never
+      tsx: never
+  react/jsx-filename-extension:
+    - 2
+    - extensions:
+      - .jsx
+      - .tsx
+  no-else-return:
+    - 0
+  react/prop-types:
+    - 0
+  no-useless-constructor:
+    - 0
+  no-empty-function:
+    - 0
 settings:
   import/resolver:
     node:
       paths:
         - ./src
+      extensions:
+        - .js
+        - .jsx
+        - .ts
+        - .tsx
