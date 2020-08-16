@@ -1,7 +1,7 @@
 import React from 'react';
 import Site from './Site';
 
-function App() {
+function App(): JSX.Element {
   return <Site />;
 }
 
