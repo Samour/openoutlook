@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Ref } from 'react';
-import { AxiosInstance } from 'axios';
 import styled from 'styled-components';
 import { Fade } from 'react-reveal';
+import { ICmsService } from 'services/cmsService';
 import SectionHeaderBreak from 'components/shared/SectionHeaderBreak';
 import ContactForm from './ContactForm';
 
@@ -16,7 +16,7 @@ const ContactDetailsContainer = styled.div`
 
 interface IProps {
   innerRef: Ref<HTMLDivElement>;
-  httpService: AxiosInstance;
+  apiService: ICmsService;
 }
 
 interface IContactDetails {
@@ -26,7 +26,7 @@ interface IContactDetails {
   enquirySubmittedMessage: string;
 }
 
-export default function ContactSection({ innerRef, httpService }: IProps): JSX.Element {
+export default function ContactSection({ innerRef, apiService }: IProps): JSX.Element {
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
   const [contactDetails, setContactDetails] = useState<IContactDetails>({
     companyName: '',
@@ -38,12 +38,12 @@ export default function ContactSection({ innerRef, httpService }: IProps): JSX.E
 
   useEffect(() => {
     const getContactDetails = async (): Promise<void> => {
-      const res = await httpService.get('/contact-details');
+      const details = await apiService.getContactDetails();
       setContactDetails({
-        companyName: res.data.CompanyName,
-        email: res.data.Email,
-        phone: res.data.Phone,
-        enquirySubmittedMessage: res.data.EnquirySubmittedMessage,
+        companyName: details.CompanyName,
+        email: details.Email,
+        phone: details.Phone,
+        enquirySubmittedMessage: details.EnquirySubmittedMessage,
       });
     };
 
@@ -51,7 +51,7 @@ export default function ContactSection({ innerRef, httpService }: IProps): JSX.E
       setDataLoaded(true);
       getContactDetails();
     }
-  }, [dataLoaded, httpService]);
+  }, [dataLoaded, apiService]);
 
   const onFormSubmitted = (): void => {
     setFormSubmitted(true);
@@ -61,7 +61,7 @@ export default function ContactSection({ innerRef, httpService }: IProps): JSX.E
     if (formSubmitted) {
       return <h3>{contactDetails.enquirySubmittedMessage}</h3>;
     } else {
-      return <ContactForm onFormSubmitted={onFormSubmitted} httpService={httpService} />;
+      return <ContactForm onFormSubmitted={onFormSubmitted} apiService={apiService} />;
     }
   };
 

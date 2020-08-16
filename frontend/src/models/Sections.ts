@@ -1,9 +1,9 @@
 export interface IHeroSection {
-  title: string;
-  copy: string;
-  backgroundSrc: string;
-  backgroundOpacity: number;
-  logo: string;
+  Title: string;
+  Copy: string;
+  Image: IImage;
+  ImageOpacity: number;
+  Logo: IImage;
 }
 
 export interface IImage {
@@ -16,4 +16,18 @@ export interface ISection {
   Header: string;
   Copy: string;
   Gallery: IImage[];
+}
+
+export interface IContactDetails {
+  CompanyName: string;
+  Email: string;
+  Phone: string;
+  EnquirySubmittedMessage: string;
+}
+
+export interface IEnquiry {
+  Name: string;
+  Email: string;
+  Phone?: string;
+  Enquiry: string;
 }

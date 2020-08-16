@@ -4,13 +4,13 @@ import React, {
   createRef,
   RefObject,
 } from 'react';
-import { AxiosInstance } from 'axios';
 import styled from 'styled-components';
 import configProvider from 'services/configProvider';
 import createHttpService from 'services/httpService';
 import ResourceService, { IResourceService } from 'services/resourceService';
+import { ICmsService, CmsService } from 'services/cmsService';
 import { IConfiguration } from 'models/IConfiguration';
-import { ISection, IHeroSection } from 'models/Sections';
+import { ISection } from 'models/Sections';
 import Hero from 'components/Hero';
 import MenuSticky from 'components/MenuSticky';
 import SiteSection from 'components/SiteSection';
@@ -28,6 +28,14 @@ const SiteWrapper = styled.div`
   );
 `;
 
+interface IHeroState {
+  title: string;
+  copy: string;
+  backgroundSrc: string;
+  backgroundOpacity: number;
+  logo: string;
+}
+
 interface IMenuItem {
   text: string;
   ref: RefObject<HTMLDivElement>;
@@ -35,9 +43,9 @@ interface IMenuItem {
 
 export default function Site(): JSX.Element {
   const [configurationLoaded, setConfigurationLoaded] = useState<boolean>(false);
-  const [httpService, setHttpService] = useState<AxiosInstance | null>(null);
+  const [apiService, setApiService] = useState<ICmsService | null>(null);
   const [cmsResourceService, setCmsResourceService] = useState<IResourceService | null>(null);
-  const [heroSection, setHeroSection] = useState<IHeroSection>({
+  const [heroSection, setHeroSection] = useState<IHeroState>({
     title: '',
     copy: '',
     backgroundSrc: '',
@@ -47,35 +55,33 @@ export default function Site(): JSX.Element {
   const [sections, setSections] = useState<ISection[]>([]);
 
   useEffect(() => {
-    const loadHeroSection = async (http: AxiosInstance, cms: IResourceService): Promise<void> => {
-      const res = await http.get('/hero-section');
+    const loadHeroSection = async (api: ICmsService, cms: IResourceService): Promise<void> => {
+      const data = await api.getHeroSection();
 
       setHeroSection({
-        title: res.data.Title,
-        copy: res.data.Copy,
-        backgroundSrc: cms.getUri(res.data.Image.url),
-        backgroundOpacity: res.data.ImageOpacity,
-        logo: cms.getUri(res.data.Logo.url),
+        title: data.Title,
+        copy: data.Copy,
+        backgroundSrc: cms.getUri(data.Image.url),
+        backgroundOpacity: data.ImageOpacity,
+        logo: cms.getUri(data.Logo.url),
       });
     };
 
-    const loadSections = async (http: AxiosInstance): Promise<void> => {
-      const res = await http.get('/site-sections');
-
-      const { data }: { data: ISection[] } = res;
-      data.sort((a, b) => a.Order - b.Order);
+    const loadSections = async (api: ICmsService): Promise<void> => {
+      const data = await api.getSections();
 
       setSections(data);
     };
 
     const loadConfig = async (): Promise<void> => {
       const config: IConfiguration = await configProvider();
-      const http = createHttpService(config.apiUrl);
+      const httpService = createHttpService(config.apiUrl);
+      const api = new CmsService(httpService);
       const cms = new ResourceService(config.apiUrl);
-      setHttpService(() => http);
+      setApiService(api);
       setCmsResourceService(cms);
-      loadHeroSection(http, cms);
-      loadSections(http);
+      loadHeroSection(api, cms);
+      loadSections(api);
     };
 
     if (!configurationLoaded) {
@@ -88,8 +94,8 @@ export default function Site(): JSX.Element {
   const contactMenuItem: IMenuItem = { text: 'Contact Us', ref: createRef() };
   menuItems.push(contactMenuItem);
 
-  const contactEl = sections.length > 1 && httpService
-    ? <Contact innerRef={contactMenuItem.ref} httpService={httpService} />
+  const contactEl = sections.length > 1 && apiService
+    ? <Contact innerRef={contactMenuItem.ref} apiService={apiService} />
     : null; // So that the reveal effect works, don't display Contact section until other sections have been loaded
 
   const sectionEls = sections.map((section, i) => (

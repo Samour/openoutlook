@@ -1,7 +1,8 @@
 import React, { useState, ChangeEvent } from 'react';
-import { AxiosInstance } from 'axios';
 import styled from 'styled-components';
 import { TextField, Button } from '@material-ui/core';
+import { IEnquiry } from 'models/Sections';
+import { ICmsService } from 'services/cmsService';
 
 const Form = styled.form`
   padding: 50px;
@@ -14,34 +15,22 @@ const ButtonContainer = styled.div`
 `;
 
 interface IProps {
-  httpService: AxiosInstance;
+  apiService: ICmsService;
   onFormSubmitted: () => void;
 }
 
-type FormField = 'name' | 'email' | 'phone' | 'enquiry';
+type FormField = 'Name' | 'Email' | 'Phone' | 'Enquiry';
 
-interface IForm {
-  name: string;
-  email: string;
-  phone: string;
-  enquiry: string;
-}
-
-export default function ContactForm({ httpService, onFormSubmitted }: IProps): JSX.Element {
-  const [form, setForm] = useState<IForm>({
-    name: '',
-    email: '',
-    phone: '',
-    enquiry: '',
+export default function ContactForm({ apiService, onFormSubmitted }: IProps): JSX.Element {
+  const [form, setForm] = useState<IEnquiry>({
+    Name: '',
+    Email: '',
+    Phone: '',
+    Enquiry: '',
   });
 
   const submitForm = async (): Promise<void> => {
-    await httpService.post('/enquiries', {
-      Name: form.name,
-      Email: form.email,
-      Phone: form.phone,
-      Enquiry: form.enquiry,
-    });
+    await apiService.submitEnquiry(form);
     onFormSubmitted();
   };
 
@@ -55,13 +44,13 @@ export default function ContactForm({ httpService, onFormSubmitted }: IProps): J
   return (
     <Form onSubmit={submitForm}>
       <div>
-        <TextField label="Name" required margin="normal" fullWidth onChange={update('name')} />
+        <TextField label="Name" required margin="normal" fullWidth onChange={update('Name')} />
       </div>
       <div>
-        <TextField label="Email" required margin="normal" fullWidth onChange={update('email')} />
+        <TextField label="Email" required margin="normal" fullWidth onChange={update('Email')} />
       </div>
       <div>
-        <TextField label="Phone" margin="normal" fullWidth onChange={update('phone')} />
+        <TextField label="Phone" margin="normal" fullWidth onChange={update('Phone')} />
       </div>
       <div>
         <TextField
@@ -71,7 +60,7 @@ export default function ContactForm({ httpService, onFormSubmitted }: IProps): J
           required
           margin="normal"
           fullWidth
-          onChange={update('enquiry')}
+          onChange={update('Enquiry')}
         />
       </div>
       <ButtonContainer>
